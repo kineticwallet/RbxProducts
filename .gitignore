@@ -1,0 +1,12 @@
+# Credentials
+.env
+
+# Dependencies
+node_modules/
+
+# Local Sync Data
+sync-lock.json
+
+# OS files
+.DS_Store
+Thumbs.db

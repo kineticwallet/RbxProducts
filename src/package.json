@@ -1,0 +1,19 @@
+{
+    "name": "rbxproducts",
+    "version": "1.0.0",
+    "description": "Surgical CLI tool for batch managing Roblox Gamepasses and Developer Products.",
+    "main": "src/index.js",
+    "type": "module",
+    "bin": {
+        "rbxproducts": "./src/cli.js"
+    },
+    "keywords": [
+        "roblox",
+        "luau",
+        "gamepass",
+        "developer-products",
+        "open-cloud"
+    ],
+    "author": "YourName",
+    "license": "MIT"
+}

@@ -51,14 +51,12 @@ function getProjectPath() {
     return path.join(CWD, PROJECT_DIR_NAME);
 }
 
-/** Converts file size to human-readable format */
-const formatBytes = (bytes) => {
-    if (bytes === 0) return '0 Bytes';
-    const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-};
+/**
+ * lists the found amount and data in a json format in the console
+ */
+function list(key, data) {
+    console.log(`found ${data.length} ${key}: ${JSON.stringify(data, null, 2)}`);
+}
 
 // --- CLI COMMANDS ---
 
@@ -398,43 +396,8 @@ program
             const universeName = await RobloxAPI.getUniverseName();
             console.log(`\nRetrieving Products for "${universeName}" (Universe ID: ${process.env.UNIVERSE_ID})`);
 
-            const passes = await RobloxAPI.listGamePasses();
-            const products = await RobloxAPI.listDevProducts();
-
-            // --- GAME PASSES SECTION ---
-            console.log(`\n--- Found ${passes.length} Game Passes ---`);
-            if (passes.length === 0) {
-                console.log('No Game Passes found.');
-            } else {
-                passes.forEach(p => {
-                    const id = p.gamePassId;
-                    const price = p.priceInformation ? p.priceInformation.defaultPriceInRobux : 'N/A';
-
-                    // Clean up description: remove newlines and cap length for display
-                    const desc = p.description
-                        ? p.description.replace(/\n/g, ' ').substring(0, 50) + (p.description.length > 50 ? '...' : '')
-                        : 'No description';
-
-                    console.log(`ID: ${String(id).padEnd(15)} | Price: ${String(price).padEnd(6)} | Name: ${p.name.padEnd(25)} | Desc: ${desc}`);
-                });
-            }
-
-            // --- DEV PRODUCTS SECTION ---
-            console.log(`\n--- Found ${products.length} Dev Products ---`);
-            if (products.length === 0) {
-                console.log('No Dev Products found.');
-            } else {
-                products.forEach(p => {
-                    const id = p.productId;
-                    const price = p.priceInformation ? p.priceInformation.defaultPriceInRobux : 'N/A';
-
-                    const desc = p.description
-                        ? p.description.replace(/\n/g, ' ').substring(0, 50) + (p.description.length > 50 ? '...' : '')
-                        : 'No description';
-
-                    console.log(`ID: ${String(id).padEnd(15)} | Price: ${String(price).padEnd(6)} | Name: ${p.name.padEnd(25)} | Desc: ${desc}`);
-                });
-            }
+            list("passes", await RobloxAPI.listGamePasses());
+            list("products", await RobloxAPI.listDevProducts());
 
             console.log('');
 
